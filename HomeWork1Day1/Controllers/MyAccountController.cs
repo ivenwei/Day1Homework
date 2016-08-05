@@ -12,6 +12,23 @@ namespace HomeWork1Day1.Controllers
         // GET: MyAccount
         public ActionResult myAccountBook()
         {
+            List<SelectListItem> categoryContent = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text = "支出",
+                    Value = "支出",
+                    Selected = false,
+                },
+                new SelectListItem
+                {
+                    Text = "收入",
+                    Value = "收入",
+                    Selected = false,
+                },
+            };
+            ViewData["myAccountCategory"] = categoryContent;
+
             return View();
         }
 
