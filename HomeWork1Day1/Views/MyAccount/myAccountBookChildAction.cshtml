@@ -1,0 +1,33 @@
+﻿@model IEnumerable<HomeWork1Day1.Models.ViewModels.MyAccountViewModels>
+
+@{
+    ViewBag.Title = "myAccountBookChildAction";
+    Layout = "";
+}
+
+<table class="table">
+    <tr>
+        <td>#</td>
+        <td>類別</td>
+        <td>日期</td>
+        <td>金額</td>
+    </tr>
+
+    @{
+        int count = 0;
+    }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@(count++)</td>
+            <td>@item.category</td>
+            <td>@item.date</td>
+            <td>@item.myMoney</td>
+        </tr>
+    }
+</table>
+
+
+
+
+

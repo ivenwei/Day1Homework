@@ -25,6 +25,7 @@ namespace HomeWork1Day1
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/justified-nav.css",
                       "~/Content/site.css"));
         }
     }
