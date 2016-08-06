@@ -9,6 +9,7 @@ namespace HomeWork1Day1.Controllers
 {
     public class MyAccountController : Controller
     {
+
         // GET: MyAccount
         public ActionResult myAccountBook()
         {
