@@ -8,6 +8,8 @@ namespace HomeWork1Day1.Models.ViewModels
 {
     public class MyAccountViewModels
     {
+
+
         [DisplayName("類別")]
         public string category { get; set; }
 
