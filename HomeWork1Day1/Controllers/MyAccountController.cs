@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace HomeWork1Day1.Controllers
 {
@@ -36,10 +37,10 @@ namespace HomeWork1Day1.Controllers
             return View();
         }
 
+        private int pagesize = 5;
         [ChildActionOnly]
-        public ActionResult myAccountBookChildAction()
+        public ActionResult myAccountBookChildAction(int page = 1)
         {
-
             var accountList = context.AccountBook.ToList().Select(
                 d => new MyAccountViewModels
                 {
@@ -49,33 +50,10 @@ namespace HomeWork1Day1.Controllers
                     memo = d.Remarkkk
                 });
 
-            //var accountList = new List<MyAccountViewModels>
-            //{
-            //    new MyAccountViewModels
-            //    {
-            //        category = "支出",
-            //        date = DateTime.Now.Date.AddDays(1).Date,
-            //        memo = "",
-            //        myMoney = 300
-            //    },
-            //    new MyAccountViewModels
-            //    {
-            //        category = "支出",
-            //        date = DateTime.Now.Date.AddDays(2).Date,
-            //        memo = "",
-            //        myMoney = 1000
-            //    },
-            //    new MyAccountViewModels
-            //    {
-            //        category = "收入",
-            //        date = DateTime.Now.Date.AddDays(3).Date,
-            //        memo = "",
-            //        myMoney = 30000
-            //    }
-            //};
-
-
-            return View(accountList);
+            int currentPage = page < 1 ? 1 : page;
+            var accountPageData = accountList.OrderBy(d => d.date);
+            var result = accountPageData.ToPagedList(currentPage, pagesize);
+            return View(result);
         }
 
     }

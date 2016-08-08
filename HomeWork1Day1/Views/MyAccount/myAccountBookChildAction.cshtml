@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HomeWork1Day1.Models.ViewModels.MyAccountViewModels>
+﻿@model IPagedList<HomeWork1Day1.Models.ViewModels.MyAccountViewModels>
+
+@*@model IEnumerable<HomeWork1Day1.Models.ViewModels.MyAccountViewModels>*@
 
 @{
     ViewBag.Title = "myAccountBookChildAction";
@@ -13,7 +15,6 @@
         <td>金額</td>
     </tr>
 
-
     @{
         int count = 0;
     }
@@ -27,8 +28,6 @@
         </tr>
     }
 </table>
-
-
-
+@Html.PagedListPager(Model, page => Url.Action("myAccountBook", new { page }))
 
 
