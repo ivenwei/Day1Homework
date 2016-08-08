@@ -1,4 +1,5 @@
-﻿using HomeWork1Day1.Models.ViewModels;
+﻿using HomeWork1Day1.Models;
+using HomeWork1Day1.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,9 @@ namespace HomeWork1Day1.Controllers
 {
     public class MyAccountController : Controller
     {
+
+        AccountModel context = new AccountModel();
+
         // GET: MyAccount
         public ActionResult myAccountBook()
         {
@@ -35,30 +39,40 @@ namespace HomeWork1Day1.Controllers
         [ChildActionOnly]
         public ActionResult myAccountBookChildAction()
         {
-            var accountList = new List<MyAccountViewModels>
-            {
-                new MyAccountViewModels
+
+            var accountList = context.AccountBook.ToList().Select(
+                d => new MyAccountViewModels
                 {
-                    category = "支出",
-                    date = DateTime.Now.Date.AddDays(1).Date,
-                    memo = "",
-                    myMoney = 300
-                },
-                new MyAccountViewModels
-                {
-                    category = "支出",
-                    date = DateTime.Now.Date.AddDays(2).Date,
-                    memo = "",
-                    myMoney = 1000
-                },
-                new MyAccountViewModels
-                {
-                    category = "收入",
-                    date = DateTime.Now.Date.AddDays(3).Date,
-                    memo = "",
-                    myMoney = 30000
-                }
-            };
+                    category = d.Categoryyy==0?"收入":"支出",
+                    date = d.Dateee,
+                    myMoney = d.Amounttt,
+                    memo = d.Remarkkk
+                });
+
+            //var accountList = new List<MyAccountViewModels>
+            //{
+            //    new MyAccountViewModels
+            //    {
+            //        category = "支出",
+            //        date = DateTime.Now.Date.AddDays(1).Date,
+            //        memo = "",
+            //        myMoney = 300
+            //    },
+            //    new MyAccountViewModels
+            //    {
+            //        category = "支出",
+            //        date = DateTime.Now.Date.AddDays(2).Date,
+            //        memo = "",
+            //        myMoney = 1000
+            //    },
+            //    new MyAccountViewModels
+            //    {
+            //        category = "收入",
+            //        date = DateTime.Now.Date.AddDays(3).Date,
+            //        memo = "",
+            //        myMoney = 30000
+            //    }
+            //};
 
 
             return View(accountList);
