@@ -250,3 +250,9 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/DBCreatePractice
+/WebApplication1
+/WebApplication2
+/WebApplication2.sln
+/WebApplication1.sln
+/DBCreatePractice.sln
