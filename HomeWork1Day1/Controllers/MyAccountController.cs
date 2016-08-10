@@ -44,7 +44,7 @@ namespace HomeWork1Day1.Controllers
             var accountList = context.AccountBook.ToList().Select(
                 d => new MyAccountViewModels
                 {
-                    category = d.Categoryyy==0?"收入":"支出",
+                    category = d.Categoryyy==0? "支出" : "收入",
                     date = d.Dateee,
                     myMoney = d.Amounttt,
                     memo = d.Remarkkk
