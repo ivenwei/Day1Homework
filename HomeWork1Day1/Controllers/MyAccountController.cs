@@ -33,15 +33,38 @@ namespace HomeWork1Day1.Controllers
                 },
             };
             ViewData["myAccountCategory"] = categoryContent;
-
             return View();
         }
+
+        [HttpPost]
+        public ActionResult myAccountBook([Bind(Include = "category,myMoney,date,memo")] MyAccountViewModels accountObj)
+        {
+            if (ModelState.IsValid)
+            {
+                AccountBook newbookData = new AccountBook
+                {
+                    Id = Guid.NewGuid(),
+                    Categoryyy = accountObj.category == "支出" ? 0 : 1,
+                    Amounttt = decimal.ToInt32(accountObj.myMoney),
+                    Dateee = accountObj.date,
+                    Remarkkk = accountObj.memo
+                };
+                context.AccountBook.Add(newbookData);
+                context.SaveChanges();
+                return RedirectToAction("myAccountBook");
+            }
+
+            return View(accountObj);
+        }
+
 
         private int pagesize = 5;
         [ChildActionOnly]
         public ActionResult myAccountBookChildAction(int page = 1)
         {
-            var accountList = context.AccountBook.ToList().Select(
+            var accountList = context.AccountBook
+                .ToList()
+                .Select(
                 d => new MyAccountViewModels
                 {
                     category = d.Categoryyy==0? "支出" : "收入",
@@ -51,7 +74,7 @@ namespace HomeWork1Day1.Controllers
                 });
 
             int currentPage = page < 1 ? 1 : page;
-            var accountPageData = accountList.OrderBy(d => d.date);
+            var accountPageData = accountList.OrderByDescending(d => d.date);
             var result = accountPageData.ToPagedList(currentPage, pagesize);
             return View(result);
         }

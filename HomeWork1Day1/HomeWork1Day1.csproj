@@ -262,6 +262,7 @@
     <Content Include="Views\MyAccount\myAccountBookChildAction.cshtml" />
     <Content Include="Views\MyAccount\myAccountBook.cshtml" />
     <Content Include="Views\Shared\_MyAccount.cshtml" />
+    <Content Include="Views\MyAccount\Create.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
