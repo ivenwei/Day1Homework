@@ -1,0 +1,20 @@
+﻿@helper HelperName(string name) {
+    // your helper can contain code and/or markup, e.g.
+    // var msg = "Hello " + name;
+    // <p>@msg</p>
+    // For more information, visit http://go.microsoft.com/fwlink/?LinkID=204658
+}
+
+@helper checkCategoryName(string categoryName)
+{
+    if (categoryName == "支出")
+    {
+            <td><font color="red">@categoryName</font></td>
+    }
+    else
+    {
+            <td><font color="blue">@categoryName</font></td>
+    }
+}
+
+
