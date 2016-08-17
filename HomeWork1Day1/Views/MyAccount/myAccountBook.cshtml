@@ -4,23 +4,28 @@
     Layout = "~/Views/Shared/_MyAccount.cshtml";
 }
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm(new AjaxOptions
+{
+    UpdateTargetId = "ajax",
+    Confirm = "Are you sure??",
+    LoadingElementDuration = 2000,
+    LoadingElementId = "ajaxProcessing",
+    Url = Url.Action("ajaxPostAccount")
+}))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <hr />
-        
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.category, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-
                 @{
-                    IEnumerable<SelectListItem> fruit = ViewData["myAccountCategory"] as IEnumerable<SelectListItem>;
+                    IEnumerable<SelectListItem> cate = ViewData["myAccountCategory"] as IEnumerable<SelectListItem>;
                 }
-
-                @Html.DropDownListFor(model => model.category, fruit, "select")
+                @Html.DropDownListFor(model => model.category, cate)
                 @*@Html.EditorFor(model => model.category, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.category, "", new { @class = "text-danger" })
             </div>
@@ -55,13 +60,17 @@
                 <input type="submit" value="Crate" class="btn btn-default" />
             </div>
         </div>
-
-
-        <div>
-            @Html.Action("myAccountBookChildAction")
-        </div>
     </div>
 }
+
+<div id="ajaxProcessing" style="display:none">
+    <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+    <span class="sr-only">Loading...</span>
+</div>
+
+<div id="ajax">
+    @Html.Partial("_ajaxPostAccount", ViewData["myAccountList"] as IPagedList<HomeWork1Day1.Models.ViewModels.MyAccountViewModels>)
+</div>
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -69,4 +78,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 }

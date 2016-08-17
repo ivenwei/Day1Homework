@@ -13,9 +13,10 @@ namespace HomeWork1Day1.Controllers
     {
 
         AccountModel context = new AccountModel();
+        private int pagesize = 5;
 
         // GET: MyAccount
-        public ActionResult myAccountBook()
+        public ActionResult myAccountBook(int page = 1)
         {
             List<SelectListItem> categoryContent = new List<SelectListItem>
             {
@@ -33,6 +34,21 @@ namespace HomeWork1Day1.Controllers
                 },
             };
             ViewData["myAccountCategory"] = categoryContent;
+
+            var accountList = context.AccountBook
+                .ToList()
+                .Select(
+                d => new MyAccountViewModels
+                {
+                    category = d.Categoryyy == 0 ? "支出" : "收入",
+                    date = d.Dateee,
+                    myMoney = d.Amounttt,
+                    memo = d.Remarkkk
+                });
+            var accountPageData = accountList.OrderByDescending(d => d.date);
+            int currentPage = page < 1 ? 1 : page;
+            var result = accountPageData.ToPagedList(page, pagesize);
+            ViewData["myAccountList"] = result;
             return View();
         }
 
@@ -58,7 +74,6 @@ namespace HomeWork1Day1.Controllers
         }
 
 
-        private int pagesize = 5;
         [ChildActionOnly]
         public ActionResult myAccountBookChildAction(int page = 1)
         {
@@ -79,5 +94,42 @@ namespace HomeWork1Day1.Controllers
             return View(result);
         }
 
+
+        /// <summary>
+        /// ### 增加 AJAX 用的 Action
+        /// </summary>
+        /// <param name="accountObj"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ajaxPostAccount([Bind(Include = "category,myMoney,date,memo")] MyAccountViewModels accountObj)
+        {
+            if (ModelState.IsValid)
+            {
+                AccountBook newbookData = new AccountBook
+                {
+                    Id = Guid.NewGuid(),
+                    Categoryyy = accountObj.category == "支出" ? 0 : 1,
+                    Amounttt = decimal.ToInt32(accountObj.myMoney),
+                    Dateee = accountObj.date,
+                    Remarkkk = accountObj.memo
+                };
+                context.AccountBook.Add(newbookData);
+                context.SaveChanges();
+            }
+
+            var accountList = context.AccountBook
+                .ToList()
+                .Select(
+                d => new MyAccountViewModels
+                {
+                    category = d.Categoryyy == 0 ? "支出" : "收入",
+                    date = d.Dateee,
+                    myMoney = d.Amounttt,
+                    memo = d.Remarkkk
+                });
+            var accountPageData = accountList.OrderByDescending(d => d.date);
+            var result = accountPageData.ToPagedList(1, pagesize);
+            return PartialView("_ajaxPostAccount", result);
+        }
     }
 }
