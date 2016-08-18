@@ -34,21 +34,7 @@ namespace HomeWork1Day1.Controllers
                 },
             };
             ViewData["myAccountCategory"] = categoryContent;
-
-            var accountList = context.AccountBook
-                .ToList()
-                .Select(
-                d => new MyAccountViewModels
-                {
-                    category = d.Categoryyy == 0 ? "支出" : "收入",
-                    date = d.Dateee,
-                    myMoney = d.Amounttt,
-                    memo = d.Remarkkk
-                });
-            var accountPageData = accountList.OrderByDescending(d => d.date);
-            int currentPage = page < 1 ? 1 : page;
-            var result = accountPageData.ToPagedList(page, pagesize);
-            ViewData["myAccountList"] = result;
+            ViewData["myAccountList"] = NewMethod(page); 
             return View();
         }
 
@@ -77,21 +63,7 @@ namespace HomeWork1Day1.Controllers
         [ChildActionOnly]
         public ActionResult myAccountBookChildAction(int page = 1)
         {
-            var accountList = context.AccountBook
-                .ToList()
-                .Select(
-                d => new MyAccountViewModels
-                {
-                    category = d.Categoryyy==0? "支出" : "收入",
-                    date = d.Dateee,
-                    myMoney = d.Amounttt,
-                    memo = d.Remarkkk
-                });
-
-            int currentPage = page < 1 ? 1 : page;
-            var accountPageData = accountList.OrderByDescending(d => d.date);
-            var result = accountPageData.ToPagedList(currentPage, pagesize);
-            return View(result);
+            return View(NewMethod(page));
         }
 
 
@@ -116,20 +88,32 @@ namespace HomeWork1Day1.Controllers
                 context.AccountBook.Add(newbookData);
                 context.SaveChanges();
             }
-
-            var accountList = context.AccountBook
-                .ToList()
-                .Select(
-                d => new MyAccountViewModels
-                {
-                    category = d.Categoryyy == 0 ? "支出" : "收入",
-                    date = d.Dateee,
-                    myMoney = d.Amounttt,
-                    memo = d.Remarkkk
-                });
-            var accountPageData = accountList.OrderByDescending(d => d.date);
-            var result = accountPageData.ToPagedList(1, pagesize);
-            return PartialView("_ajaxPostAccount", result);
+            return PartialView("_ajaxPostAccount", NewMethod(1));
         }
+
+
+        /// <summary>
+        /// 分頁用功能
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        private IPagedList<MyAccountViewModels> NewMethod(int page)
+        {
+            var accountList = context.AccountBook
+                            .ToList()
+                            .Select(
+                            d => new MyAccountViewModels
+                            {
+                                category = d.Categoryyy == 0 ? "支出" : "收入",
+                                date = d.Dateee,
+                                myMoney = d.Amounttt,
+                                memo = d.Remarkkk
+                            });
+            var accountPageData = accountList.OrderByDescending(d => d.date);
+            int currentPage = page < 1 ? 1 : page;
+            var result = accountPageData.ToPagedList(page, pagesize);
+            return result;
+        }
+
     }
 }

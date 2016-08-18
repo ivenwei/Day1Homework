@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_MyAccount.cshtml";
 }
 
+
 @using (Ajax.BeginForm(new AjaxOptions
 {
     UpdateTargetId = "ajax",
@@ -68,7 +69,12 @@
     <span class="sr-only">Loading...</span>
 </div>
 
+
 <div id="ajax">
+    @{ 
+        ///請問使用ChildAction也可以完成一樣的功能嗎?
+        ///@Html.Action("myAccountBookChildAction")
+    }
     @Html.Partial("_ajaxPostAccount", ViewData["myAccountList"] as IPagedList<HomeWork1Day1.Models.ViewModels.MyAccountViewModels>)
 </div>
 
