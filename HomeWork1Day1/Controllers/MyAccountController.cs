@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using HomeWork1Day1.Models.Services;
 
 namespace HomeWork1Day1.Controllers
 {
@@ -13,7 +14,13 @@ namespace HomeWork1Day1.Controllers
     {
 
         AccountModel context = new AccountModel();
+        private AccountService _accountSvc;
         private int pagesize = 5;
+
+        public MyAccountController()
+        {
+            _accountSvc = new AccountService();
+        }
 
         // GET: MyAccount
         public ActionResult myAccountBook(int page = 1)
@@ -51,8 +58,10 @@ namespace HomeWork1Day1.Controllers
                     Dateee = accountObj.date,
                     Remarkkk = accountObj.memo
                 };
-                context.AccountBook.Add(newbookData);
-                context.SaveChanges();
+                _accountSvc.addAccountData(newbookData);
+                _accountSvc.save();
+                //context.AccountBook.Add(newbookData);
+                //context.SaveChanges();
                 return RedirectToAction("myAccountBook");
             }
 
@@ -85,8 +94,10 @@ namespace HomeWork1Day1.Controllers
                     Dateee = accountObj.date,
                     Remarkkk = accountObj.memo
                 };
-                context.AccountBook.Add(newbookData);
-                context.SaveChanges();
+                _accountSvc.addAccountData(newbookData);
+                _accountSvc.save();
+                //context.AccountBook.Add(newbookData);
+                //context.SaveChanges();
             }
             return PartialView("_ajaxPostAccount", NewMethod(1));
         }
@@ -99,8 +110,9 @@ namespace HomeWork1Day1.Controllers
         /// <returns></returns>
         private IPagedList<MyAccountViewModels> NewMethod(int page)
         {
-            var accountList = context.AccountBook
-                            .ToList()
+            var allAccountData = _accountSvc.getAllAccountData();
+
+            var accountList = allAccountData
                             .Select(
                             d => new MyAccountViewModels
                             {

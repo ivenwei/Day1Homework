@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -9,17 +9,21 @@ namespace HomeWork1Day1.Models.ViewModels
     public class MyAccountViewModels
     {
 
-
-        [DisplayName("類別")]
+        [Required]
+        [Display(Name="類別")]
         public string category { get; set; }
 
-        [DisplayName("金額")]
+        [Required]
+        [Display(Name = "金額")]
         public decimal myMoney { get; set; }
 
-        [DisplayName("日期")]
+        [Required]
+        [Display(Name = "日期")]
         public DateTime date { get; set; }
 
-        [DisplayName("備註")]
+        [Required]
+        [Display(Name = "備註")]
+        [StringLength(500)]
         public string memo { get; set; }
     }
 }
