@@ -51,7 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.memo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.memo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.memo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.memo, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -71,10 +71,6 @@
 
 
 <div id="ajax">
-    @{ 
-        ///請問使用ChildAction也可以完成一樣的功能嗎?
-        ///@Html.Action("myAccountBookChildAction")
-    }
     @Html.Partial("_ajaxPostAccount", ViewData["myAccountList"] as IPagedList<HomeWork1Day1.Models.ViewModels.MyAccountViewModels>)
 </div>
 
@@ -85,4 +81,27 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+@*<script type="text/javascript">
+    jQuery.validator.addMethod('daterange', function (value, element, param) {
+        if (!value) return false;
+        var valueDateParts = value.split('/');
+        var minDate = new Date();
+        var maxDate = new Date();
+        var now = new Date();
+        var dateValue = new Date(valueDateParts[2],
+                            (valueDateParts[1] - 1),
+                             valueDateParts[0],
+                             now.getHours(),
+                             now.getMinutes(),
+                             (now.getSeconds() + 5));
+
+        minDate.setDate(minDate.getDate() - parseInt(param.min));
+        maxDate.setDate(maxDate.getDate() + parseInt(param.max));
+
+        return dateValue >= minDate && dateValue <= maxDate;
+    });
+    jQuery.validator.unobtrusive.adapters.addMinMax('daterange', 'min', 'max', 'dayrange');
+</script>*@
+
+
 }
