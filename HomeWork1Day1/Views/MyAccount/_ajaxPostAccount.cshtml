@@ -12,6 +12,9 @@
         <th>類別</th>
         <th>日期</th>
         <th>金額</th>
+        <th></th>
+        <th></th>
+        <th></th>
     </tr>
 
     @{
@@ -24,6 +27,9 @@
             @ExtendedHelper.checkCategoryName(item.category)
             <td>@item.date</td>
             <td>@item.myMoney</td>
+            <td>@Html.ActionLink("Edit","Edit",new { id = item.ID })</td>
+            <td>@Html.ActionLink("Detail", "Detail", new { id = item.ID })</td>
+            <td>@Html.ActionLink("Delete", "Delete", new { id = item.ID })</td>
         </tr>
     }
 </table>

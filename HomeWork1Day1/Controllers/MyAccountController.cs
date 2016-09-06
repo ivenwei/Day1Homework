@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using HomeWork1Day1.Models.Services;
+using System.Net;
 
 namespace HomeWork1Day1.Controllers
 {
@@ -116,6 +117,7 @@ namespace HomeWork1Day1.Controllers
                             .Select(
                             d => new MyAccountViewModels
                             {
+                                ID = d.Id,
                                 category = d.Categoryyy == 0 ? "支出" : "收入",
                                 date = d.Dateee,
                                 myMoney = d.Amounttt,
@@ -127,5 +129,109 @@ namespace HomeWork1Day1.Controllers
             return result;
         }
 
+        //Get
+        public ActionResult Edit(Guid? Id)
+        {
+            if (Id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var account = _accountSvc.getSingalAccountData(Id.Value);
+            if (account == null){
+                return HttpNotFound();
+            }
+
+            MyAccountViewModels accountObj = null;
+            if (account != null)
+            {
+                accountObj = new MyAccountViewModels
+                {
+                    category = account.Categoryyy == 0 ? "支出" : "收入",
+                    date = account.Dateee,
+                    memo = account.Remarkkk,
+                    myMoney = account.Amounttt
+                };
+            }
+            return View(accountObj);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "ID,category,myMoney,date,memo")] MyAccountViewModels accountObj)
+        {
+            var editAccount = _accountSvc.getSingalAccountData(accountObj.ID);
+            if (editAccount != null && ModelState.IsValid)
+            {
+                _accountSvc.editAccountData(accountObj, editAccount);
+                _accountSvc.save();
+                return RedirectToAction("myAccountBook");
+            }
+            return View(accountObj);
+        }
+
+
+        //Get
+        public ActionResult Delete(Guid? Id)
+        {
+            if (Id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var account = _accountSvc.getSingalAccountData(Id.Value);
+            if (account == null)
+            {
+                return HttpNotFound();
+            }
+
+            MyAccountViewModels accountObj = new MyAccountViewModels
+            {
+                category = account.Categoryyy == 0 ? "支出" : "收入",
+                date = account.Dateee,
+                memo = account.Remarkkk,
+                myMoney = account.Amounttt
+            };
+
+            return View(accountObj);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirm(Guid id)
+        {
+            var account = _accountSvc.getSingalAccountData(id);
+            if (account != null)
+            {
+                _accountSvc.deleteAccountData(account);
+                _accountSvc.save();
+            }
+
+            return RedirectToAction("myAccountBook");
+        }
+
+        public ActionResult Detail(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var accountData = _accountSvc.getSingalAccountData(id.Value);
+            if (accountData == null)
+            {
+                return HttpNotFound();
+            };
+
+            MyAccountViewModels accountObj = new MyAccountViewModels
+            {
+                ID = accountData.Id,
+                category = accountData.Categoryyy == 0 ? "支出" : "收入",
+                date = accountData.Dateee,
+                memo = accountData.Remarkkk,
+                myMoney = accountData.Amounttt
+            };
+            return View(accountObj);
+        }
     }
 }

@@ -10,6 +10,8 @@ namespace HomeWork1Day1.Models.ViewModels
     public class MyAccountViewModels
     {
 
+        public Guid ID { get; set; }
+
         [Required]
         [Display(Name="類別")]
         public string category { get; set; }
@@ -21,7 +23,7 @@ namespace HomeWork1Day1.Models.ViewModels
 
         [Required]
         [Display(Name = "日期")]
-        [DateRange(-1000,0)]//ErrorMessage ="填入日期不能超過今日"
+        [DateRange(-1000,0,ErrorMessage ="填入日期不能超過今日")]
         public DateTime date { get; set; }
 
         [Required]

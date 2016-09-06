@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HomeWork1Day1.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -35,12 +36,12 @@ namespace HomeWork1Day1.Models.Services
             context.AccountBook.Add(accountData);
         }
 
-        public void editAccountData(AccountBook modifyAccountData,AccountBook accountData)
+        public void editAccountData(MyAccountViewModels modifyAccountData, AccountBook accountData)
         {
-            accountData.Amounttt = accountData.Amounttt;
-            accountData.Categoryyy = accountData.Categoryyy;
-            accountData.Dateee = accountData.Dateee;
-            accountData.Remarkkk = accountData.Remarkkk;
+            accountData.Amounttt = decimal.ToInt32(modifyAccountData.myMoney);
+            accountData.Categoryyy = modifyAccountData.category == "支出" ? 0 : 1;
+            accountData.Dateee = modifyAccountData.date;
+            accountData.Remarkkk = modifyAccountData.memo;
         }
 
         public void save()
