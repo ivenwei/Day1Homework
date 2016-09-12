@@ -14,7 +14,7 @@ namespace HomeWork1Day1.Controllers
     public class MyAccountController : Controller
     {
 
-        AccountModel context = new AccountModel();
+        //AccountModel context = new AccountModel();
         private AccountService _accountSvc;
         private int pagesize = 5;
 
@@ -42,7 +42,7 @@ namespace HomeWork1Day1.Controllers
                 },
             };
             ViewData["myAccountCategory"] = categoryContent;
-            ViewData["myAccountList"] = NewMethod(page); 
+            ViewData["myAccountList"] = paging(page); 
             return View();
         }
 
@@ -73,7 +73,7 @@ namespace HomeWork1Day1.Controllers
         [ChildActionOnly]
         public ActionResult myAccountBookChildAction(int page = 1)
         {
-            return View(NewMethod(page));
+            return View(paging(page));
         }
 
 
@@ -100,7 +100,7 @@ namespace HomeWork1Day1.Controllers
                 //context.AccountBook.Add(newbookData);
                 //context.SaveChanges();
             }
-            return PartialView("_ajaxPostAccount", NewMethod(1));
+            return PartialView("_ajaxPostAccount", paging(1));
         }
 
 
@@ -109,7 +109,7 @@ namespace HomeWork1Day1.Controllers
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
-        private IPagedList<MyAccountViewModels> NewMethod(int page)
+        private IPagedList<MyAccountViewModels> paging(int page)
         {
             var allAccountData = _accountSvc.getAllAccountData();
 

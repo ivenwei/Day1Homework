@@ -6,7 +6,7 @@ using System.Web;
 
 namespace HomeWork1Day1.Models.Services
 {
-    public class AccountService
+    public class AccountService : IDisposable
     {
         private AccountModel context;
 
@@ -47,6 +47,10 @@ namespace HomeWork1Day1.Models.Services
         public void save()
         {
             context.SaveChanges();
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

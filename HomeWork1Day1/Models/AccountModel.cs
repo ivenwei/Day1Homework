@@ -17,5 +17,7 @@ namespace HomeWork1Day1.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
         }
+
+        public System.Data.Entity.DbSet<HomeWork1Day1.Models.ViewModels.MyAccountViewModels> MyAccountViewModels { get; set; }
     }
 }

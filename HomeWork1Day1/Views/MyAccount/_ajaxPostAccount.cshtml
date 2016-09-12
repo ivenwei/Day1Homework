@@ -27,9 +27,7 @@
             @ExtendedHelper.checkCategoryName(item.category)
             <td>@item.date</td>
             <td>@item.myMoney</td>
-            <td>@Html.ActionLink("Edit","Edit",new { id = item.ID })</td>
             <td>@Html.ActionLink("Detail", "Detail", new { id = item.ID })</td>
-            <td>@Html.ActionLink("Delete", "Delete", new { id = item.ID })</td>
         </tr>
     }
 </table>
